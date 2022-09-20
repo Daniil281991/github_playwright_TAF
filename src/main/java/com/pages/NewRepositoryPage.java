@@ -2,7 +2,7 @@ package com.pages;
 
 import com.microsoft.playwright.Page;
 
-public class NewRepositoryPage {
+public class NewRepositoryPage extends Header {
     private final Page page;
     private final String repositoryNameInputField = "#repository_name";
     private final String radioPublic = "#repository_visibility_public";
@@ -12,21 +12,15 @@ public class NewRepositoryPage {
 
     // page constructor
     public NewRepositoryPage(Page page) {
+        super(page);
         this.page = page;
     }
 
     public void createRepository(String repositoryName) {
         page.click(repositoryNameInputField);
-        page.fill(repositoryNameInputField, "New_repository");
+        page.fill(repositoryNameInputField, repositoryName);
         page.locator(radioPublic).check();
         page.locator(checkboxAddReadme).check();
         page.click(createRepositoryButton);
     }
-
-    public String getPageURL() {
-        return page.url();
-    }
-
-
-
 }
