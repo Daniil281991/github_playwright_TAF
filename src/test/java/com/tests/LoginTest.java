@@ -9,6 +9,7 @@ import com.microsoft.playwright.options.LoadState;
 import com.pages.HomePage;
 import com.pages.LoginPage;
 import com.pages.StartPage;
+import com.utils.EnvVariablesManager;
 import com.utils.PropertiesReader;
 import org.testng.annotations.*;
 
@@ -27,8 +28,8 @@ public class LoginTest {
         page = pf.initBrowser("chromium");
         page.context().clearCookies();
         propertiesReader = new PropertiesReader();
-        userEmail = propertiesReader.getProperties("USER_EMAIL");
-        userPassword = propertiesReader.getProperties("USER_PASSWORD");
+        userEmail = new EnvVariablesManager().getEnvironmentVariable("TAF_PLAYWRIGHT_GITHUB_USER_EMAIL");
+        userPassword = new EnvVariablesManager().getEnvironmentVariable("TAF_PLAYWRIGHT_GITHUB_USER_PASSWORD");
         screenshotsFolderPath = propertiesReader.getProperties(
                 "SCREENSHOT_FOLDER_PATH");
         wrongEmail = "wrongEmail";

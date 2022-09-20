@@ -7,7 +7,6 @@ public class StartPage {
 
     String loginPageButton = "[href='/login']";
 
-    // page constructor
     public StartPage(Page page) {
         this.page = page;
     }
@@ -15,9 +14,4 @@ public class StartPage {
     public void goToLoginPage() {
         page.click(loginPageButton);
     }
-
-    public String getHomePageURL() {
-        return page.url();
-    }
-
 }

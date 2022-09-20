@@ -9,7 +9,6 @@ public class HomePage extends Header {
     private final String createNewRepositoryButton = "article:nth-child(3) div:nth-child(1) > a";
     private final String wrongCredsError = "#js-flash-container>div";
 
-    // page constructor
     public HomePage(Page page) {
         super(page);
         this.page = page;

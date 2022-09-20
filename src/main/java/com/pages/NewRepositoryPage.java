@@ -10,7 +10,6 @@ public class NewRepositoryPage extends Header {
     private final String checkboxAddReadme = "#repository_auto_init";
     private final String createRepositoryButton = "div.js-with-permission-fields > button";
 
-    // page constructor
     public NewRepositoryPage(Page page) {
         super(page);
         this.page = page;

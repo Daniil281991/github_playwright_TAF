@@ -7,9 +7,8 @@ public class LoginPage {
     private final String loginInputField = "#login_field";
     private final String passwordInputField = "#password";
     private final String signInButtonSelector = " input.js-sign-in-button";
-
     public String homePageUrl = "";
-    // page constructor
+
     public LoginPage(Page page) {
         this.page = page;
     }

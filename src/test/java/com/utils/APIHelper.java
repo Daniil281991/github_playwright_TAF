@@ -14,7 +14,6 @@ import java.util.Map;
 public class APIHelper {
     private Playwright playwright;
     private PropertiesReader propertiesReader;
-//    private APIRequestContext request;
     public APIHelper() {
     }
 
@@ -28,14 +27,10 @@ public class APIHelper {
         String BASE_API_URL = propertiesReader.getProperties("BASE_API_URL");
 
         Map<String, String> headers = new HashMap<>();
-        // We set this header per GitHub guidelines.
         headers.put("Accept", "application/vnd.github.v3+json");
-        // Add authorization token to all requests.
-        // Assuming personal access token available in the environment.
         headers.put("Authorization", "token " + API_TOKEN);
 
         APIRequestContext requestContext = playwright.request().newContext(new APIRequest.NewContextOptions()
-                // All requests we send go to this API endpoint.
                 .setBaseURL(BASE_API_URL)
                 .setExtraHTTPHeaders(headers));
         return requestContext;

@@ -1,6 +1,8 @@
 package com.tests;
 
 import java.nio.file.Paths;
+
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import com.factory.PlaywrightFactory;
@@ -19,8 +21,10 @@ public class HomeTest {
     StartPage startPage;
     HomePage homePage;
     NewRepositoryPage newRepositoryPage;
+    RepositoriesPage repositoriesPage;
     RepositoryPage repositoryPage;
     PropertiesReader propertiesReader;
+    RepositorySettingsPage repositorySettingsPage;
     private String userName, repositoryName, userEmail, userPassword, screenshotsFolderPath;
 
 
@@ -34,7 +38,7 @@ public class HomeTest {
         screenshotsFolderPath = propertiesReader.getProperties(
                 "SCREENSHOT_FOLDER_PATH");
 
-        pf =new PlaywrightFactory();
+        pf = new PlaywrightFactory();
         page = pf.initBrowser("chromium");
         page.context().clearCookies();
     }
@@ -56,9 +60,11 @@ public class HomeTest {
         newRepositoryPage = new NewRepositoryPage(page);
         newRepositoryPage.createRepository("new_repository");
 
-        repositoryPage = new RepositoryPage(page);
+        repositoriesPage = new RepositoriesPage(page);
 
-        assertTrue(repositoryPage.isRepositoryExists("new_repository"));
+        page.waitForLoadState();
+
+        assertTrue(repositoriesPage.isRepositoryExists("new_repository"));
 
         page.screenshot(new Page.ScreenshotOptions().
                 setPath(Paths.get(screenshotsFolderPath + "/createRepositoryTest.png")));
@@ -68,17 +74,32 @@ public class HomeTest {
 
     @Test
     public void testUserCanDeleteRepository() {
-        new APIHelper().createRepository("New_api_made_project");
+        String repositoryName = "New_api_made_project";
+
+        new APIHelper().createRepository(repositoryName);
 
         homePage = new HomePage(page);
+        homePage.goToRepositoriesPage();
 
+        repositoriesPage = new RepositoriesPage(page);
 
+        repositoriesPage.goToRepositoryPage(repositoryName);
 
+        repositoryPage = new RepositoryPage(page);
+        repositoryPage.goToSettingsTab();
+
+        repositorySettingsPage = new RepositorySettingsPage(page);
+        repositorySettingsPage.deleteRepository();
+
+        page.waitForLoadState();
+
+        repositoriesPage = new RepositoriesPage(page);
+        assertFalse(repositoriesPage.isRepositoryExists(repositoryName));
 
         page.screenshot(new Page.ScreenshotOptions().
                 setPath(Paths.get(screenshotsFolderPath + "/createRepositoryTest.png")));
 
-        new APIHelper().deleteRepository(userName, "New_api_made_project");
+        new APIHelper().deleteRepository(userName, repositoryName);
     }
 
     @AfterMethod

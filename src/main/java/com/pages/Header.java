@@ -7,6 +7,7 @@ public class Header {
 
     private final String userProfileButton = ".Header-item:nth-child(7) .Header-link";
     private final String logOutButton = ".logout-form>button";
+    private final String repositoriesButton = "a[href$=repositories]";
 
     public Header(Page page) {
         this.page = page;
@@ -19,5 +20,8 @@ public class Header {
         }
     }
 
-
+    public void goToRepositoriesPage() {
+        page.click(userProfileButton);
+        page.click(repositoriesButton);
+    }
 }
