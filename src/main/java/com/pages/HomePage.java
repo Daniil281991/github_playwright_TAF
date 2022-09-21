@@ -6,7 +6,7 @@ public class HomePage extends Header {
     Page page;
 
     private final String mainPageHeaderLocator = "main>div.my-3>h1";
-    private final String createNewRepositoryButton = "article:nth-child(3) div:nth-child(1) > a";
+    private final String createNewRepositoryButton = "p~a[href='/new']";
     private final String wrongCredsError = "#js-flash-container>div";
 
     public HomePage(Page page) {

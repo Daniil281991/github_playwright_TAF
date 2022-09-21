@@ -25,8 +25,8 @@ public class HomeTest {
     RepositoryPage repositoryPage;
     PropertiesReader propertiesReader;
     RepositorySettingsPage repositorySettingsPage;
-    private String userName, repositoryName, userEmail, userPassword, screenshotsFolderPath;
-
+    private String userName, repositoryName, userEmail, userPassword;
+    private final String screenshotsFolderPath = "src/test/resources/screenshots";
 
     @BeforeTest
     public void setup() {
@@ -35,8 +35,6 @@ public class HomeTest {
         repositoryName = propertiesReader.getProperties("REPOSITORY_NAME");
         userEmail = new EnvVariablesManager().getEnvironmentVariable("TAF_PLAYWRIGHT_GITHUB_USER_EMAIL");
         userPassword = new EnvVariablesManager().getEnvironmentVariable("TAF_PLAYWRIGHT_GITHUB_USER_PASSWORD");
-        screenshotsFolderPath = propertiesReader.getProperties(
-                "SCREENSHOT_FOLDER_PATH");
 
         pf = new PlaywrightFactory();
         page = pf.initBrowser("chromium");
@@ -89,7 +87,7 @@ public class HomeTest {
         repositoryPage.goToSettingsTab();
 
         repositorySettingsPage = new RepositorySettingsPage(page);
-        repositorySettingsPage.deleteRepository();
+        repositorySettingsPage.deleteRepository(userName, repositoryName);
 
         page.waitForLoadState();
 

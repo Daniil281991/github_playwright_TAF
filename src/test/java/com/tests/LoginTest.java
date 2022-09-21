@@ -19,7 +19,8 @@ public class LoginTest {
     LoginPage loginPage;
     StartPage startPage;
     HomePage homePage;
-    private String userEmail, userPassword, screenshotsFolderPath, wrongEmail, wrongPassword;
+    private String userEmail, userPassword, wrongEmail, wrongPassword;
+    private final String screenshotsFolderPath = "src/test/resources/screenshots";
     PropertiesReader propertiesReader;
 
     @BeforeTest
@@ -30,8 +31,6 @@ public class LoginTest {
         propertiesReader = new PropertiesReader();
         userEmail = new EnvVariablesManager().getEnvironmentVariable("TAF_PLAYWRIGHT_GITHUB_USER_EMAIL");
         userPassword = new EnvVariablesManager().getEnvironmentVariable("TAF_PLAYWRIGHT_GITHUB_USER_PASSWORD");
-        screenshotsFolderPath = propertiesReader.getProperties(
-                "SCREENSHOT_FOLDER_PATH");
         wrongEmail = "wrongEmail";
         wrongPassword = "wrongPassword";
     }
