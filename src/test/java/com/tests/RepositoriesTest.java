@@ -1,52 +1,31 @@
 package com.tests;
 
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.LoadState;
+import com.pages.*;
+import com.utils.APIHelper;
+import org.testng.annotations.*;
+
 import java.nio.file.Paths;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
-import com.factory.PlaywrightFactory;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.options.LoadState;
-import com.pages.*;
-import com.utils.APIHelper;
-import com.utils.EnvVariablesManager;
-import com.utils.PropertiesReader;
-import org.testng.annotations.*;
-
-public class HomeTest {
-    PlaywrightFactory pf;
-    Page page;
+public class RepositoriesTest extends BaseTest {
     LoginPage loginPage;
-    StartPage startPage;
     HomePage homePage;
+    StartPage startPage;
     NewRepositoryPage newRepositoryPage;
     RepositoriesPage repositoriesPage;
     RepositoryPage repositoryPage;
-    PropertiesReader propertiesReader;
     RepositorySettingsPage repositorySettingsPage;
-    private String userName, repositoryName, userEmail, userPassword;
-    private final String screenshotsFolderPath = "src/test/resources/screenshots";
 
-    @BeforeTest
-    public void setup() {
-        propertiesReader = new PropertiesReader();
-        userName = propertiesReader.getProperties("USER_NAME");
-        repositoryName = propertiesReader.getProperties("REPOSITORY_NAME");
-        userEmail = new EnvVariablesManager().getEnvironmentVariable("TAF_PLAYWRIGHT_GITHUB_USER_EMAIL");
-        userPassword = new EnvVariablesManager().getEnvironmentVariable("TAF_PLAYWRIGHT_GITHUB_USER_PASSWORD");
-
-        pf = new PlaywrightFactory();
-        page = pf.initBrowser("chromium");
-        page.context().clearCookies();
-    }
-
-    @BeforeMethod
+    @BeforeClass
     public void setUpMethod() {
         startPage = new StartPage(page);
         startPage.goToLoginPage();
-        loginPage = new LoginPage(page);
         page.waitForLoadState(LoadState.NETWORKIDLE);
+        loginPage = new LoginPage(page);
         loginPage.logInWithCreds(userEmail, userPassword);
     }
 
@@ -70,10 +49,8 @@ public class HomeTest {
         new APIHelper().deleteRepository(userName, repositoryName);
     }
 
-    @Test
-    public void testUserCanDeleteRepository() {
-        String repositoryName = "New_api_made_project";
-
+    @Test(dataProvider = "getRepositoryNames")
+    public void testUserCanDeleteRepository(String repositoryName) {
         new APIHelper().createRepository(repositoryName);
 
         homePage = new HomePage(page);
@@ -100,13 +77,17 @@ public class HomeTest {
         new APIHelper().deleteRepository(userName, repositoryName);
     }
 
-    @AfterMethod
-    public void tearDownMethod() {
-        homePage.logOut();
+    @DataProvider
+    public Object[][] getRepositoryNames() {
+        return new Object[][] {
+                {"first_repository"},
+                {"second_repository"},
+                {"third_repository"}
+        };
     }
 
-    @AfterTest
-    public void tearDown() {
-        page.context().browser().close();
+    @AfterClass
+    public void tearDownMethod() {
+        homePage.logOut();
     }
 }

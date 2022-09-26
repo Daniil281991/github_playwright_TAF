@@ -5,8 +5,8 @@ import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.options.RequestOptions;
+import constants.AppConstants;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,19 +24,17 @@ public class APIHelper {
     APIRequestContext createAPIRequestContext() {
         propertiesReader = new PropertiesReader();
         String API_TOKEN = new EnvVariablesManager().getEnvironmentVariable("TAF_PLAYWRIGHT_GITHUB_API_TOKEN");
-        String BASE_API_URL = propertiesReader.getProperties("BASE_API_URL");
-
+        String BASE_API_URL = AppConstants.BASE_API_URL;
         Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/vnd.github.v3+json");
         headers.put("Authorization", "token " + API_TOKEN);
 
-        APIRequestContext requestContext = playwright.request().newContext(new APIRequest.NewContextOptions()
+        return playwright.request().newContext(new APIRequest.NewContextOptions()
                 .setBaseURL(BASE_API_URL)
                 .setExtraHTTPHeaders(headers));
-        return requestContext;
     }
 
-    public APIResponse deleteRepository(String user, String repositoryName) {
+    public void deleteRepository(String user, String repositoryName) {
         createPlaywright();
         APIRequestContext requestContext = createAPIRequestContext();
 
@@ -44,8 +42,6 @@ public class APIHelper {
 
         deleteRepoResponse.dispose();
         playwright.close();
-
-        return deleteRepoResponse;
     }
 
     public APIResponse createRepository(String repositoryName) {

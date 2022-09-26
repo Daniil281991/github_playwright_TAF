@@ -30,7 +30,7 @@ public class PlaywrightFactory {
         }
         browserContext = browser.newContext();
         page = browserContext.newPage();
-        String mainPageURL = propertiesReader.getProperties("MAIN_PAGE_URL");
+        String mainPageURL = propertiesReader.getProperties("MAIN_PAGE_URL").trim();
         page.navigate(mainPageURL);
 
         return page;
