@@ -4,8 +4,18 @@
 
     <test name="Test1">
         <classes>
-            <class name="com.tests.RepositoriesTest"/>
-            <class name="com.tests.LoginTest"/>
+            <class name="com.tests.RepositoriesTest">
+                <methods>
+                    <include name="testUserCanCreateRepository"/>
+                    <include name="testUserCanDeleteRepository"/>
+                </methods>
+            </class>
+            <class name="com.tests.LoginTest">
+                <methods>
+                    <include name="testUserCanLogInWithValidCreds"/>
+                    <include name="testUserCanSeeErrorMessageAfterWrongCredsLogging"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
