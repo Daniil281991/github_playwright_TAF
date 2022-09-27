@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="RepositorySuite">
+    <listeners>
+        <listener class-name="com.utils.LoggingListener"></listener>
+    </listeners>
+
+    <test name="Test1">
+        <classes>
+            <class name="com.tests.RepositoriesTest">
+                <methods>
+                    <include name="testUserCanCreateRepository"/>
+                    <include name="testUserCanDeleteRepository"/>
+                </methods>
+            </class>
+            <class name="com.tests.LoginTest">
+                <methods>
+                    <include name="testUserCanLogInWithValidCreds"/>
+                    <include name="testUserCanSeeErrorMessageAfterWrongCredsLogging"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
