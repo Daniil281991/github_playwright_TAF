@@ -12,14 +12,17 @@ public class Checkbox extends Element implements PwCheckbox {
     }
 
     public Boolean isChecked() {
+        this.logger.info(String.format("Check if element '%s'(%s) is checked", this.name, this.selector));
         return page.isChecked(this.selector);
     }
 
     public void check() {
+        this.logger.info(String.format("Check the element '%s'(%s)", this.name, this.selector));
         page.check(this.selector);
     }
 
     public void uncheck() {
+        this.logger.info(String.format("Uncheck the element '%s'(%s)", this.name, this.selector));
         page.uncheck(this.selector);
     }
 }

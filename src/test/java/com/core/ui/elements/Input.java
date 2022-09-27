@@ -9,10 +9,12 @@ public class Input extends Element implements PwInput {
     }
 
     public void type(String value) {
+        this.logger.info(String.format("Typing %s into element '%s'(%s)", value, this.name, this.selector));
         page.fill(this.selector, value);
     }
 
     public void clear() {
+        this.logger.info(String.format("Clear input '%s'(%s)", this.name, this.selector));
         page.fill(this.selector, "");
     }
 }
